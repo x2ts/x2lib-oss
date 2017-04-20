@@ -9,6 +9,9 @@ use x2ts\TConfig;
 use x2ts\TGetterSetter;
 use x2ts\Toolkit;
 
+/** @noinspection SingletonFactoryPatternViolationInspection
+ * @package x2lib\oss
+ */
 class AliOSS extends OssClient implements IComponent {
     use TConfig;
     use TGetterSetter;
@@ -24,6 +27,19 @@ class AliOSS extends OssClient implements IComponent {
             'connect'  => 10,
         ],
     ];
+
+    public function __construct($conf) {
+        $args = [
+            $conf['accessKeyId'],
+            $conf['accessKeySecret'],
+            $conf['endpoint'],
+            $conf['isCName'],
+            $conf['securityToken'],
+        ];
+        parent::__construct(...$args);
+        $this->setTimeout($conf['timeout']['transfer']);
+        $this->setConnectTimeout($conf['timeout']['connect']);
+    }
 
     /**
      * @param array  $args
@@ -42,18 +58,5 @@ class AliOSS extends OssClient implements IComponent {
             $settings = Configuration::$configuration[$confHash];
         }
         return new AliOSS($settings);
-    }
-
-    public function __construct($conf) {
-        $args = [
-            $conf['accessKeyId'],
-            $conf['accessKeySecret'],
-            $conf['endpoint'],
-            $conf['isCName'],
-            $conf['securityToken'],
-        ];
-        parent::__construct(...$args);
-        $this->setTimeout($conf['timeout']['transfer']);
-        $this->setConnectTimeout($conf['timeout']['connect']);
     }
 }
