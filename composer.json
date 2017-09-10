@@ -11,7 +11,7 @@
   ],
   "require": {
     "x2ts/x2ts": "^2.0",
-    "aliyuncs/oss-sdk-php": "^2.2"
+    "syutingsong/oss-sdk-php": "^2.3"
   },
   "autoload": {
     "psr-4": {
